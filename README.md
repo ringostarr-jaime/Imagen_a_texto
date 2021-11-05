@@ -1,9 +1,9 @@
 # Imagen_a_texto
 Este programa es un tipo OCR ya que permite sacar los textos de la imagen y permite guardarlos en un fichero txt. (por cuestiones de espacio solo se subio el archivo SPA)
 
-<img src="https://github.com/ringostarr-jaime/Imagen_a_texto/blob/main/Imagen_texto_java/happy.jpg" width="650" >
+<img src="https://github.com/ringostarr-jaime/Imagen_a_texto/blob/main/eng.JPG" width="650" >
 </br>
-<img src="https://github.com/ringostarr-jaime/Imagen_a_texto/blob/main/Imagen_texto_java/sometimes.jpg" width="650" >
+<img src="https://github.com/ringostarr-jaime/Imagen_a_texto/blob/main/spa.JPG" width="650" >
 <br/>
 Esto se agrego al archivo POM ya que al generar el jar este no contenia las dependecias lo coloco aqui 
 por si alguien tiene el mismo problema solo debe cambiarse  "<mainClass>com.jaime.imagen_texto_java.Gestionarchivos</mainClass>"
