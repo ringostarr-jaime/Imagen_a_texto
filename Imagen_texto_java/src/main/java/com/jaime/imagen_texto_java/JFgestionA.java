@@ -5,12 +5,15 @@
  */
 package com.jaime.imagen_texto_java;
 
-import com.jaime.imagen_texto_java.loading.hiloLoad;
+
+
 import com.jaime.imagen_texto_java.loading.loadFrame;
+import java.awt.Cursor;
+import static java.awt.Frame.HAND_CURSOR;
 import java.awt.Image;
 import java.io.File;
-import java.io.IOException;
 import javax.swing.*;
+
 
 /**
  *
@@ -19,13 +22,14 @@ import javax.swing.*;
 public class JFgestionA extends javax.swing.JFrame {
 
     JFileChooser selecionado = new JFileChooser();
-    convertir cc = new convertir();
     File archivo = null;
     byte[] bytesImg;
     GestionA gestion = new GestionA();
-    hiloLoad hLoad;
-    loadFrame frame;
     String muchoTexto = "";
+    String idioma = "spa";
+    String texto;
+    convertir cc;
+    loadFrame fram;
 
     /**
      * Creates new form JFgestionA
@@ -36,24 +40,21 @@ public class JFgestionA extends javax.swing.JFrame {
     }
 
     public final void iniciar() {
-        frame = new loadFrame();
-        hLoad = new hiloLoad(); 
-        //System.out.println("==txtArea " + txtArea.getText().isEmpty());
         if (txtArea.getText().isEmpty()) {
             btnGuardarTexto.setEnabled(false);
         } else {
             btnGuardarTexto.setEnabled(true);
         }
 
-        //System.out.println("==archivo " + archivo == null);
         if (archivo == null) {
             btnProcesar.setEnabled(false);
         } else {
             btnProcesar.setEnabled(true);
         }
-
         idiomasJcombo.addItem("Español");
         idiomasJcombo.addItem("Ingles");
+        cc = new convertir();
+        fram = new loadFrame();
     }
 
     /**
@@ -66,10 +67,10 @@ public class JFgestionA extends javax.swing.JFrame {
     private void initComponents() {
 
         btnAbrirArchivo = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lblImagen = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtArea = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        lblImagen = new javax.swing.JLabel();
         btnGuardarTexto = new javax.swing.JButton();
         btnProcesar = new javax.swing.JButton();
         idiomasJcombo = new javax.swing.JComboBox<>();
@@ -86,14 +87,19 @@ public class JFgestionA extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(lblImagen);
-
         txtArea.setColumns(20);
         txtArea.setRows(5);
         jScrollPane2.setViewportView(txtArea);
 
+        jScrollPane1.setViewportView(lblImagen);
+
         btnGuardarTexto.setText("GUARDAR TEXTO");
         btnGuardarTexto.setName("guardarTxt"); // NOI18N
+        btnGuardarTexto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnGuardarTextoMouseMoved(evt);
+            }
+        });
         btnGuardarTexto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarTextoActionPerformed(evt);
@@ -102,6 +108,11 @@ public class JFgestionA extends javax.swing.JFrame {
 
         btnProcesar.setText("PROCESAR");
         btnProcesar.setName("procesarTxt"); // NOI18N
+        btnProcesar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnProcesarMouseMoved(evt);
+            }
+        });
         btnProcesar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProcesarActionPerformed(evt);
@@ -117,60 +128,60 @@ public class JFgestionA extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(84, 84, 84)
-                                .addComponent(btnProcesar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnGuardarTexto)
-                                .addGap(159, 159, 159))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(32, 32, 32))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel1)
-                        .addGap(28, 28, 28)
-                        .addComponent(idiomasJcombo, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
                         .addComponent(btnAbrirArchivo)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jLabel1)
+                        .addGap(28, 28, 28)
+                        .addComponent(idiomasJcombo, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(btnProcesar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(314, 314, 314)
+                        .addComponent(btnGuardarTexto))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAbrirArchivo)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idiomasJcombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAbrirArchivo)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel2)))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel1))
+                    .addComponent(idiomasJcombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnProcesar)
                     .addComponent(btnGuardarTexto))
-                .addContainerGap())
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbrirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirArchivoActionPerformed
+
         if (selecionado.showDialog(this, "ABRIR ARCHIVO") == JFileChooser.APPROVE_OPTION) {
             archivo = selecionado.getSelectedFile();
 
@@ -178,13 +189,11 @@ public class JFgestionA extends javax.swing.JFrame {
                 if (archivo.getName().endsWith("jpg") || archivo.getName().endsWith("png") || archivo.getName().endsWith("gif") || archivo.getName().endsWith("JPG") || archivo.getName().endsWith("PNG") || archivo.getName().endsWith("GIF")) {
                     bytesImg = gestion.AbrirImagen(archivo);
                     lblImagen.setIcon(new ImageIcon(bytesImg));
-
                     ImageIcon imgIcon = (ImageIcon) lblImagen.getIcon();
                     Image imgEscalada = imgIcon.getImage().getScaledInstance(lblImagen.getWidth(),
                             lblImagen.getHeight(), Image.SCALE_SMOOTH);
                     Icon iconoEscalado = new ImageIcon(imgEscalada);
                     lblImagen.setIcon(iconoEscalado);
-
                     btnProcesar.setEnabled(true);
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Porfavor selecione un archivo de JPG o PNG");
@@ -215,23 +224,77 @@ public class JFgestionA extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarTextoActionPerformed
 
     private void btnProcesarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProcesarActionPerformed
-        // String muchoTexto = "";
         try {
             int idioma2 = idiomasJcombo.getSelectedIndex();
-            String idioma = "spa";
             if (idioma2 == 0) {
                 idioma = "spa";
             } else {
                 idioma = "eng";
-            }          
-            hLoad.iniciarHilo(frame, archivo, idioma,txtArea, Gestionarchivos.jfga);           
+            }
+
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    estados(false);
+                    fram.mostrar(true);
+                    txtArea.setText(cc.convertirATexto(archivo, idioma));
+                    estados(true);
+                    fram.cerrar();
+                }
+            };
+            new Thread(r).start();
 
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "Error " + e);
             muchoTexto = "" + e;
-        }
-        //txtArea.setText(muchoTexto);
-
+        }           
     }//GEN-LAST:event_btnProcesarActionPerformed
+
+    public void estados(boolean estado) {
+        btnAbrirArchivo.setEnabled(estado);
+        idiomasJcombo.setEnabled(estado);
+        lblImagen.setVisible(estado);
+        txtArea.setVisible(estado);
+        btnGuardarTexto.setEnabled(estado);
+        btnProcesar.setEnabled(estado);
+    }
+
+
+    private void btnProcesarMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProcesarMouseMoved
+        // TODO add your handling code here:
+        btnProcesar.setCursor(new Cursor(HAND_CURSOR));
+    }//GEN-LAST:event_btnProcesarMouseMoved
+
+    private void btnGuardarTextoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarTextoMouseMoved
+        // TODO add your handling code here:
+        btnGuardarTexto.setCursor(new Cursor(HAND_CURSOR));
+    }//GEN-LAST:event_btnGuardarTextoMouseMoved
+
+    //<editor-fold defaultstate="collapsed" desc="GETSET">
+    public File getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(File archivo) {
+        this.archivo = archivo;
+    }
+
+    public JButton getBtnGuardarTexto() {
+        return btnGuardarTexto;
+    }
+
+    public void setBtnGuardarTexto(JButton btnGuardarTexto) {
+        this.btnGuardarTexto = btnGuardarTexto;
+    }
+
+    public JTextArea getTxtArea() {
+        return txtArea;
+    }
+
+    public void setTxtArea(JTextArea txtArea) {
+        this.txtArea = txtArea;
+    }
+    //</editor-fold>
 
     /**
      * @param args the command line arguments
@@ -250,13 +313,17 @@ public class JFgestionA extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFgestionA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFgestionA.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFgestionA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFgestionA.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFgestionA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFgestionA.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFgestionA.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFgestionA.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

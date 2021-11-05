@@ -6,36 +6,30 @@
 package com.jaime.imagen_texto_java;
 
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import net.sourceforge.tess4j.*;
-
 
 /**
  *
  * @author Jymmy
  */
 public class convertir {
-    
-    public String convertirATexto(File rutaImagen, String idioma)
-    {        
-        String texto="";
+
+    String texto = "";
+
+    public String convertirATexto(File rutaImagen, String idioma) {
         //File imageFile = new File("imagen1.jpg");
-        String ruta = System.getProperty("user.dir") + "\\tessdata";        
-        ITesseract instance = new Tesseract();  
+        //String ruta = System.getProperty("user.dir") + "\\tessdata";
+        String ruta = "";
+        ruta = "classes/tessdata/";
+        ITesseract instance = new Tesseract();
         instance.setDatapath(ruta);
-        instance.setLanguage((idioma.equals("")?"spa":idioma));           
-        try {           
-            texto  = instance.doOCR(rutaImagen);          
-            //System.out.println(texto);
+        instance.setLanguage((idioma.equals("") ? "spa" : idioma));
+        try {
+            texto = instance.doOCR(rutaImagen);
         } catch (TesseractException e) {
             System.err.println(e.getMessage());
-        }        
+        }
         return texto;
     }
 }

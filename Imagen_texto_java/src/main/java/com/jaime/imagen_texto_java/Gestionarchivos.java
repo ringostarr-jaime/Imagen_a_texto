@@ -15,9 +15,11 @@ public class Gestionarchivos {
      * @param args the command line arguments
      */
     public static JFgestionA jfga;
-    
+ 
+
     public static void main(String[] args) {
-         jfga = new JFgestionA();
+       
+        jfga = new JFgestionA();
         jfga.setVisible(true);
         jfga.setLocationRelativeTo(null);
 

@@ -5,8 +5,6 @@
  */
 package com.jaime.imagen_texto_java.loading;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -19,11 +17,18 @@ public class loadFrame extends javax.swing.JFrame {
      */
     public loadFrame() {
         initComponents();
-        String ruta = System.getProperty("user.dir") + "\\img/load.gif";    
-        //System.out.println("==ruta"+ruta);
-        Icon icon = new ImageIcon(ruta);       
-        lblLoad.setIcon(icon);
-        lblLoad.setVisible(true);       
+        lblLoad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/contents/load.gif")));
+        lblLoad.setVisible(true);
+    }
+
+    public void mostrar(boolean visibilidad) {
+        this.setVisible(visibilidad);
+        this.setLocationRelativeTo(null);
+    }
+
+    public void cerrar() {
+        this.setVisible(false);
+        this.dispose();
     }
 
     /**
@@ -46,7 +51,6 @@ public class loadFrame extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(366, 262, -1, -1));
 
-        lblLoad.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jymmy\\Documents\\NetBeansProjects\\HilosBarraCarga\\img\\load.gif")); // NOI18N
         lblLoad.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jPanel1.add(lblLoad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 90, 210, 180));
 
